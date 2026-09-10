@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Untuk Kamu yang Spesial</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+  :root{
+    --peach:#FF9A8B;
+    --pink:#FF6A88;
+    --lilac:#B98CFF;
+    --sky:#7ED9FF;
+    --mint:#8BE9C9;
+    --yellow:#FFD166;
+    --ink:#2B1B3D;
+    --paper:#FFFDF8;
+  }
+
+  body{
+    font-family:"Segoe UI","Tahoma","DejaVu Sans",Arial,sans-serif;
+    background:linear-gradient(160deg,#FFE3EC 0%,#FFD9C0 22%,#E8D9FF 55%,#CDEBFF 78%,#D6FFF1 100%);
+    background-attachment:fixed;
+    color:var(--ink);
+    overflow-x:hidden;
+    min-height:100vh;
+    padding:18px 14px 60px;
+    position:relative;
+  }
+
+  /* ---------- floating hearts & sparkles ---------- */
+  .layer{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0;}
+  .float{position:absolute;top:110%;opacity:.85;animation:rise linear infinite;}
+  @keyframes rise{
+    0%{transform:translateY(0) rotate(0deg) scale(.9);opacity:0;}
+    10%{opacity:.9;}
+    100%{transform:translateY(-130vh) rotate(360deg) scale(1.15);opacity:0;}
+  }
+  .twinkle{position:absolute;width:6px;height:6px;border-radius:50%;background:#fff;
+           box-shadow:0 0 10px 3px rgba(255,255,255,.9);animation:tw 2.6s ease-in-out infinite;}
+  @keyframes tw{0%,100%{opacity:.15;transform:scale(.6);}50%{opacity:1;transform:scale(1.3);}}
+
+  /* ---------- layout ---------- */
+  .wrap{position:relative;z-index:2;max-width:620px;margin:0 auto;display:flex;flex-direction:column;gap:18px;}
+
+  .card{
+    background:rgba(255,253,248,.86);
+    border:3px solid #fff;
+    border-radius:26px;
+    padding:26px 22px;
+    box-shadow:0 14px 34px rgba(120,80,160,.20);
+    text-align:center;
+  }
+
+  .hero{
+    background:linear-gradient(150deg,#FFF3F7,#FFF8EC);
+    border:3px dashed var(--pink);
+  }
+
+  .to{
+    display:inline-block;font-size:13px;letter-spacing:3px;text-transform:uppercase;
+    color:#B4446B;background:#FFE6EF;padding:6px 16px;border-radius:999px;margin-bottom:14px;
+    font-weight:700;
+  }
+
+  h1{
+    font-size:clamp(27px,7vw,40px);
+    line-height:1.25;
+    margin-bottom:6px;
+    color:#5B2A86;
+    text-shadow:0 2px 0 #fff;
+  }
+  .sub-id{font-size:clamp(16px,4.3vw,20px);color:#8A4B6B;font-style:italic;margin-bottom:20px;}
+
+  .divider{width:90px;height:5px;border-radius:99px;margin:18px auto;
+           background:linear-gradient(90deg,var(--peach),var(--lilac),var(--sky));}
+
+  .msg-id{font-size:19px;line-height:1.85;color:#3A2154;font-weight:600;margin-bottom:16px;}
+  .msg-ar{font-size:17px;line-height:1.95;color:#5E4B70;direction:rtl;text-align:right;
+          background:#F4EDFF;border-radius:18px;padding:16px 16px;margin-bottom:12px;}
+  .msg-en{font-size:14.5px;line-height:1.7;color:#7A6C8A;font-style:italic;}
+
+  .label{font-size:11.5px;letter-spacing:2px;text-transform:uppercase;color:#A99BBB;font-weight:700;margin-bottom:8px;}
+
+  h2{font-size:22px;color:#5B2A86;margin-bottom:6px;}
+  .h2-ar{direction:rtl;font-size:18px;color:#8A6FA8;margin-bottom:18px;}
+
+  /* ---------- buttons ---------- */
+  .btn{
+    display:inline-block;border:none;cursor:pointer;font-family:inherit;
+    font-size:17px;font-weight:800;color:#fff;
+    padding:15px 26px;border-radius:999px;margin:6px;
+    box-shadow:0 8px 0 rgba(0,0,0,.13),0 12px 22px rgba(150,100,200,.28);
+    transition:transform .12s ease,box-shadow .12s ease;
+  }
+  .btn:active{transform:translateY(5px);box-shadow:0 3px 0 rgba(0,0,0,.13);}
+  .b-pink{background:linear-gradient(135deg,#FF6A88,#FF9A8B);}
+  .b-lilac{background:linear-gradient(135deg,#8B5CF6,#B98CFF);}
+  .b-sky{background:linear-gradient(135deg,#2FA9E0,#7ED9FF);}
+  .b-mint{background:linear-gradient(135deg,#12B981,#8BE9C9);}
+
+  /* ---------- quote box ---------- */
+  #quoteBox{
+    margin-top:18px;padding:20px 18px;border-radius:20px;
+    background:linear-gradient(135deg,#FFF6E5,#FFE9F2);
+    border:2px solid #FFE0B8;
+    transition:opacity .3s ease,transform .3s ease;
+    min-height:130px;
+    display:flex;flex-direction:column;justify-content:center;
+  }
+  #quoteBox.hide{opacity:0;transform:scale(.96);}
+  .q-id{font-size:18.5px;font-weight:800;color:#4A2C6D;line-height:1.6;margin-bottom:10px;}
+  .q-ar{font-size:15.5px;direction:rtl;text-align:right;color:#7A5C99;line-height:1.8;}
+  .q-num{font-size:12px;color:#C0A9D6;margin-top:12px;font-weight:700;}
+
+  /* ---------- breathing ---------- */
+  .breath-stage{display:flex;flex-direction:column;align-items:center;gap:16px;margin-top:10px;}
+  .ring{
+    width:150px;height:150px;border-radius:50%;
+    background:radial-gradient(circle at 35% 30%,#B7F0FF,#5BC8F5);
+    box-shadow:0 0 0 10px rgba(126,217,255,.25),0 12px 30px rgba(60,150,210,.30);
+    display:flex;align-items:center;justify-content:center;
+    transition:transform 4s cubic-bezier(.4,0,.4,1),box-shadow 4s ease;
+  }
+  .ring.in{transform:scale(1.35);box-shadow:0 0 0 22px rgba(126,217,255,.18),0 16px 34px rgba(60,150,210,.32);}
+  .ring-text{font-size:15px;font-weight:800;color:#0B4A6B;text-align:center;padding:0 10px;line-height:1.4;}
+  .breath-note{font-size:14px;color:#7A6C8A;line-height:1.7;max-width:420px;}
+
+  /* ---------- reasons grid ---------- */
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:6px;}
+  .tile{border-radius:18px;padding:16px 12px;color:#fff;box-shadow:0 6px 16px rgba(0,0,0,.10);}
+  .tile .em{font-size:30px;display:block;margin-bottom:8px;}
+  .tile .id{font-size:14.5px;font-weight:800;line-height:1.45;margin-bottom:6px;}
+  .tile .ar{font-size:12.5px;direction:rtl;line-height:1.6;opacity:.94;}
+  .t1{background:linear-gradient(140deg,#FF8FA3,#FF6A88);}
+  .t2{background:linear-gradient(140deg,#A78BFA,#7C3AED);}
+  .t3{background:linear-gradient(140deg,#5BC8F5,#2F80C4);}
+  .t4{background:linear-gradient(140deg,#34D399,#12B981);}
+  .t5{background:linear-gradient(140deg,#FBBF24,#F59E0B);}
+  .t6{background:linear-gradient(140deg,#F472B6,#DB2777);}
+
+  /* ---------- checklist ---------- */
+  .todo{text-align:left;margin-top:14px;display:flex;flex-direction:column;gap:10px;}
+  .todo label{
+    display:flex;align-items:flex-start;gap:12px;background:#F7F2FF;border:2px solid #EDE3FF;
+    border-radius:16px;padding:13px 14px;cursor:pointer;transition:background .2s,border-color .2s;
+  }
+  .todo label.done{background:#E7FBF1;border-color:#B6F0D4;}
+  .todo input{width:22px;height:22px;margin-top:2px;accent-color:#12B981;flex:0 0 auto;}
+  .todo .txt .id{font-size:15px;font-weight:700;color:#3A2154;line-height:1.5;}
+  .todo .txt .ar{font-size:13px;direction:rtl;color:#7A6C8A;line-height:1.6;margin-top:3px;}
+  .todo label.done .txt .id{text-decoration:line-through;color:#9A8AAE;}
+
+  /* ---------- music list ---------- */
+  .songs{text-align:left;margin-top:12px;}
+  .song{display:flex;align-items:center;gap:12px;background:#FFF7ED;border-radius:14px;
+        padding:11px 13px;margin-bottom:9px;border-left:6px solid var(--peach);}
+  .song .n{font-size:19px;}
+  .song .t{font-size:14.5px;font-weight:700;color:#5A3B2A;line-height:1.4;}
+  .song .d{font-size:12px;color:#A08A76;margin-top:2px;}
+
+  .sign{margin-top:22px;font-size:15px;color:#8A6FA8;line-height:1.9;}
+  .sign b{color:#5B2A86;}
+  .footer-note{font-size:12.5px;color:#9A8AAE;text-align:center;margin-top:16px;line-height:1.7;}
+  .heart-big{font-size:34px;animation:beat 1.4s ease-in-out infinite;display:inline-block;}
+  @keyframes beat{0%,100%{transform:scale(1);}25%{transform:scale(1.22);}40%{transform:scale(1);}}
+
+  .confetti{position:fixed;top:-12px;z-index:5;pointer-events:none;animation:fall linear forwards;}
+  @keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:.2;}}
+</style>
+</head>
+<body>
+
+<div class="layer" id="bgLayer"></div>
+
+<div class="wrap">
+
+  <!-- ============ HERO ============ -->
+  <section class="card hero">
+    <span class="to">Untuk &bull; إلى</span>
+    <h1>Kakak tersayang &#128156;</h1>
+    <div class="sub-id">أختي الغالية &mdash; my dear sister</div>
+    <div class="divider"></div>
+
+    <p class="msg-id">
+      Aku tahu beberapa hari ini terasa berat.<br>
+      Tapi tolong ingat satu hal:
+      <b>ini bukan salahmu, sama sekali bukan.</b><br><br>
+      Orang jahat adalah tanggung jawab orang jahat itu.<br>
+      Kamu hanya orang baik yang bertemu orang yang salah.
+    </p>
+
+    <div class="msg-ar">
+      أعلم أن هذه الأيام كانت ثقيلة عليكِ.<br>
+      لكن تذكّري أمرًا واحدًا: <b>هذا ليس ذنبكِ أبدًا.</b><br>
+      الإنسان السيئ هو وحده من يُحاسَب على سوء فعله.<br>
+      وأنتِ إنسانة طيبة التقت بشخصٍ خاطئ، لا أكثر.
+    </div>
+
+    <p class="msg-en">
+      I know these days have felt heavy. But please remember one thing:
+      <b>this is not your fault, not even a little.</b>
+      A bad person is responsible for being bad. You were simply a kind person who met the wrong one.
+    </p>
+  </section>
+
+  <!-- ============ SURPRISE QUOTES ============ -->
+  <section class="card">
+    <h2>&#127873; Kejutan Kecil</h2>
+    <div class="h2-ar">مفاجأة صغيرة — اضغطي الزر كلما شئتِ</div>
+
+    <button class="btn b-pink" onclick="nextQuote()">&#127881; Buka Kejutan</button>
+
+    <div id="quoteBox">
+      <div>
+        <div class="q-id" id="qId">Tekan tombol di atas ya &#128149;</div>
+        <div class="q-ar" id="qAr">اضغطي الزر في الأعلى</div>
+      </div>
+      <div class="q-num" id="qNum"></div>
+    </div>
+  </section>
+
+  <!-- ============ BREATHING ============ -->
+  <section class="card">
+    <h2>&#127807; Latihan Napas 1 Menit</h2>
+    <div class="h2-ar">تمرين تنفس لمدة دقيقة واحدة</div>
+
+    <div class="breath-stage">
+      <div class="ring" id="ring"><div class="ring-text" id="ringText">Mulai<br>&#127744;</div></div>
+      <button class="btn b-sky" id="breathBtn" onclick="toggleBreath()">&#9654; Mulai</button>
+      <p class="breath-note" id="breathNote">
+        Ikuti lingkaran: membesar = tarik napas lewat hidung, mengecil = buang napas pelan lewat mulut.<br>
+        <span style="direction:rtl;display:inline-block;margin-top:6px;color:#8A6FA8;">
+          تابعي الدائرة: حين تكبر خذي شهيقًا من الأنف، وحين تصغر أخرجي الزفير ببطء من الفم. دقيقة واحدة فقط.
+        </span>
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ REASONS ============ -->
+  <section class="card">
+    <h2>&#127775; 6 Alasan Kamu Hebat</h2>
+    <div class="h2-ar">٦ أسباب تجعلكِ إنسانة عظيمة</div>
+    <div class="grid">
+      <div class="tile t1"><span class="em">&#128150;</span><div class="id">Hatimu baik</div><div class="ar">قلبك طيب</div></div>
+      <div class="tile t2"><span class="em">&#128170;</span><div class="id">Kamu kuat</div><div class="ar">أنتِ قوية</div></div>
+      <div class="tile t3"><span class="em">&#127793;</span><div class="id">Kamu terus tumbuh</div><div class="ar">تكبرين وتتعلمين</div></div>
+      <div class="tile t4"><span class="em">&#127752;</span><div class="id">Masa depanmu cerah</div><div class="ar">مستقبلك مشرق</div></div>
+      <div class="tile t5"><span class="em">&#128171;</span><div class="id">Kamu berharga</div><div class="ar">أنتِ غالية</div></div>
+      <div class="tile t6"><span class="em">&#127968;</span><div class="id">Kamu tidak sendiri</div><div class="ar">لستِ وحدك أبدًا</div></div>
+    </div>
+  </section>
+
+  <!-- ============ PROTECT YOURSELF ============ -->
+  <section class="card">
+    <h2>&#128737; Lindungi Dirimu</h2>
+    <div class="h2-ar">احمي نفسك — ضعي علامة كلما أنجزتِ واحدة</div>
+    <div class="todo" id="todo">
+      <label><input type="checkbox" onchange="tick(this)"><span class="txt"><div class="id">Blokir nomornya &amp; semua akunnya</div><div class="ar">احظري رقمه وجميع حساباته</div></span></label>
+      <label><input type="checkbox" onchange="tick(this)"><span class="txt"><div class="id">Laporkan (report) di aplikasi itu</div><div class="ar">بلّغي عنه في التطبيق نفسه</div></span></label>
+      <label><input type="checkbox" onchange="tick(this)"><span class="txt"><div class="id">Hapus chat, jangan dibaca ulang</div><div class="ar">احذفي المحادثات ولا تعيدي قراءتها</div></span></label>
+      <label><input type="checkbox" onchange="tick(this)"><span class="txt"><div class="id">Kunci semua akun: password baru + 2FA</div><div class="ar">غيّري كلمات المرور وفعّلي التحقق بخطوتين</div></span></label>
+      <label><input type="checkbox" onchange="tick(this)"><span class="txt"><div class="id">Tidak menerima video call dari orang asing</div><div class="ar">لا تقبلي مكالمات فيديو من أشخاص لا تعرفينهم</div></span></label>
+      <label><input type="checkbox" onchange="tick(this)"><span class="txt"><div class="id">Ceritakan ke orang yang kamu percaya</div><div class="ar">حدّثي شخصًا تثقين به</div></span></label>
+    </div>
+    <p class="footer-note" style="margin-top:16px;">
+      Kalau ada foto/video yang diambil tanpa izin, laporkan di <b>StopNCII.org</b> (gratis).<br>
+      <span style="direction:rtl;display:inline-block;">إذا أُخذت منها أي صور أو مقاطع فيديو دون رضاها، فموقع <b>StopNCII.org</b> مجاني ويساعد على منع انتشارها.</span>
+    </p>
+  </section>
+
+  <!-- ============ MOOD PLAYLIST ============ -->
+  <section class="card">
+    <h2>&#127925; Playlist Pengangkat Mood</h2>
+    <div class="h2-ar">قائمة أغانٍ ترفع المزاج — ابحثي عنها في يوتيوب أو سبوتيفاي</div>
+    <div class="songs">
+      <div class="song"><div class="n">&#9728;&#65039;</div><div><div class="t">Laskar Pelangi &mdash; Nidji</div><div class="d">أغنية أمل إندونيسية كلاسيكية</div></div></div>
+      <div class="song"><div class="n">&#127752;</div><div><div class="t">Bahagia &mdash; GAC</div><div class="d">إيقاع مبهج من أول ثانية</div></div></div>
+      <div class="song"><div class="n">&#127908;</div><div><div class="t">Fight Song &mdash; Rachel Platten</div><div class="d">للشعور بالقوة والثقة</div></div></div>
+      <div class="song"><div class="n">&#127911;</div><div><div class="t">Manusia Kuat &mdash; Tulus</div><div class="d">«إنسان قوي» — مناسبة لها جدًا</div></div></div>
+      <div class="song"><div class="n">&#127769;</div><div><div class="t">Surat Cinta Untuk Starla &mdash; Virgoun</div><div class="d">هادئة ولطيفة قبل النوم</div></div></div>
+      <div class="song"><div class="n">&#127926;</div><div><div class="t">Happy &mdash; Pharrell Williams</div><div class="d">يستحيل ألا تبتسمي معها</div></div></div>
+    </div>
+  </section>
+
+  <!-- ============ SIGN ============ -->
+  <section class="card" style="background:linear-gradient(150deg,#F3ECFF,#EAF7FF);">
+    <div class="heart-big">&#10084;&#65039;</div>
+    <p class="sign">
+      <b>Kamu dicintai, hari ini dan selamanya.</b><br>
+      أنتِ محبوبة، اليوم وكل يوم.<br>
+      <span style="font-size:13px;">You are loved &mdash; today and always.</span>
+    </p>
+    <div class="divider"></div>
+    <p class="footer-note">
+      Dibuat dengan cinta, khusus untukmu &bull; صُنعت بحبٍّ خصيصًا لكِ
+    </p>
+  </section>
+
+</div>
+
+<script>
+/* ---------------- floating background ---------------- */
+(function(){
+  var layer = document.getElementById('bgLayer');
+  var hearts = ['\u2764','\u2665','\u2728','\u2B50','\u2661','\u2740'];
+  var colors = ['#FF6A88','#B98CFF','#7ED9FF','#FFD166','#8BE9C9','#FF9A8B'];
+  for (var i=0;i<26;i++){
+    var s = document.createElement('span');
+    s.className = 'float';
+    s.textContent = hearts[i % hearts.length];
+    s.style.left = (Math.random()*100) + 'vw';
+    s.style.fontSize = (14 + Math.random()*26) + 'px';
+    s.style.color = colors[i % colors.length];
+    s.style.animationDuration = (11 + Math.random()*14) + 's';
+    s.style.animationDelay = (-Math.random()*20) + 's';
+    layer.appendChild(s);
+  }
+  for (var j=0;j<22;j++){
+    var t = document.createElement('span');
+    t.className = 'twinkle';
+    t.style.left = (Math.random()*100) + 'vw';
+    t.style.top = (Math.random()*100) + 'vh';
+    t.style.animationDelay = (Math.random()*3) + 's';
+    layer.appendChild(t);
+  }
+})();
+
+/* ---------------- quotes ---------------- */
+var quotes = [
+  {id:"Kamu lebih kuat dari yang kamu kira.", ar:"أنتِ أقوى بكثير مما تظنين."},
+  {id:"Badai pasti berlalu, dan kamu akan tetap berdiri.", ar:"العاصفة ستمرّ، وأنتِ ستبقين واقفة."},
+  {id:"Hari ini boleh berat, tapi besok selalu ada harapan baru.", ar:"قد يكون اليوم ثقيلًا، لكن الغد يحمل أملًا جديدًا دائمًا."},
+  {id:"Kamu berharga, apa pun yang dikatakan orang lain.", ar:"أنتِ غالية، مهما قال الآخرون."},
+  {id:"Menangis itu boleh. Itu bukan kelemahan.", ar:"البكاء ليس ضعفًا، فابكي براحتك."},
+  {id:"Satu orang jahat tidak bisa menghapus semua hal baik dalam dirimu.", ar:"شخص سيئ واحد لن يمحو كل الجمال الذي فيكِ."},
+  {id:"Aku selalu ada untukmu, kapan pun kamu butuh.", ar:"أنا موجود من أجلك في أي وقت تحتاجينني فيه."},
+  {id:"Kamu sudah bertahan sejauh ini. Itu luar biasa.", ar:"لقد صمدتِ حتى هنا، وهذا في حد ذاته إنجاز."},
+  {id:"Jangan biarkan satu malam buruk mencuri masa depanmu.", ar:"لا تدعي ليلة سيئة تسرق مستقبلك."},
+  {id:"Tuhan tidak memberi ujian di luar kemampuanmu.", ar:"الله لا يكلّف نفسًا فوق طاقتها."},
+  {id:"Senyummu itu mahal. Jangan diberikan ke orang yang salah.", ar:"ابتسامتك غالية، فلا تمنحيها للشخص الخاطئ."},
+  {id:"Aku bangga padamu. Sungguh.", ar:"أنا فخور بكِ حقًّا."}
+];
+var qi = -1;
+
+function nextQuote(){
+  var box = document.getElementById('quoteBox');
+  box.classList.add('hide');
+  burst();
+  setTimeout(function(){
+    qi = (qi + 1) % quotes.length;
+    var q = quotes[qi];
+    document.getElementById('qId').innerHTML = '&#128156; ' + q.id;
+    document.getElementById('qAr').innerHTML = q.ar;
+    document.getElementById('qNum').textContent = (qi+1) + ' / ' + quotes.length;
+    box.classList.remove('hide');
+  }, 280);
+}
+
+/* ---------------- breathing ---------------- */
+var breathing = false, breathTimer = null, breathCount = 0;
+function toggleBreath(){
+  var btn = document.getElementById('breathBtn');
+  var ring = document.getElementById('ring');
+  var txt = document.getElementById('ringText');
+  if (breathing){
+    breathing = false;
+    clearInterval(breathTimer);
+    ring.classList.remove('in');
+    txt.innerHTML = 'Mulai<br>\uD83C\uDF2C';
+    btn.innerHTML = '\u25B6 Mulai lagi';
+    return;
+  }
+  breathing = true;
+  btn.innerHTML = '\u23F8 Berhenti';
+  var inhale = true;
+  ring.classList.add('in');
+  txt.innerHTML = 'Tarik napas...<br><span style="font-size:12px;">شهيق</span>';
+  breathTimer = setInterval(function(){
+    inhale = !inhale;
+    if (inhale){
+      ring.classList.add('in');
+      txt.innerHTML = 'Tarik napas...<br><span style="font-size:12px;">شهيق</span>';
+    } else {
+      ring.classList.remove('in');
+      txt.innerHTML = 'Buang napas...<br><span style="font-size:12px;">زفير</span>';
+      breathCount++;
+      if (breathCount >= 8){
+        clearInterval(breathTimer);
+        breathing = false;
+        breathCount = 0;
+        ring.classList.remove('in');
+        txt.innerHTML = 'Bagus!<br>\u2728';
+        btn.innerHTML = '\u25B6 Ulangi';
+        burst(22);
+      }
+    }
+  }, 4000);
+}
+
+/* ---------------- checklist ---------------- */
+function tick(cb){
+  cb.parentNode.classList.toggle('done', cb.checked);
+  var all = document.querySelectorAll('#todo input');
+  var done = 0;
+  for (var i=0;i<all.length;i++){ if (all[i].checked) done++; }
+  if (done === all.length){ burst(30); }
+}
+
+/* ---------------- confetti ---------------- */
+function burst(n){
+  n = n || 14;
+  var colors = ['#FF6A88','#FFD166','#7ED9FF','#B98CFF','#8BE9C9','#FF9A8B'];
+  for (var i=0;i<n;i++){
+    var c = document.createElement('div');
+    c.className = 'confetti';
+    c.style.left = (Math.random()*100) + 'vw';
+    c.style.width = (6 + Math.random()*8) + 'px';
+    c.style.height = (10 + Math.random()*12) + 'px';
+    c.style.background = colors[i % colors.length];
+    c.style.borderRadius = (Math.random() > .5 ? '50%' : '3px');
+    c.style.animationDuration = (2 + Math.random()*2.4) + 's';
+    document.body.appendChild(c);
+    (function(el){ setTimeout(function(){ el.remove(); }, 4600); })(c);
+  }
+}
+</script>
+</body>
+</html>
